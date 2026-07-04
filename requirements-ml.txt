@@ -1,0 +1,5 @@
+# ML / forecasting extras — needed only to (re)train forecasts and run the
+# backtest evaluation in scripts/. The API itself runs on requirements.txt alone.
+# (MAE/RMSE/MAPE are computed directly with numpy, so no scikit-learn needed.)
+-r requirements.txt
+prophet>=1.1.5

@@ -1,0 +1,49 @@
+# ── Python ───────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ── Virtual environments (any depth) ─────────────────────
+venv/
+.venv/
+env/
+# nested venvs, e.g. seris/health_monitor/venv/
+**/venv/
+**/.venv/
+# stray second virtualenv — do not commit
+seris/
+
+# ── Secrets / local config ───────────────────────────────
+.env
+.env.local
+*.local
+
+# ── Database ─────────────────────────────────────────────
+# local dev database (regenerated on startup)
+health_monitor.db
+*.db
+*.sqlite
+*.sqlite3
+
+# ── Generated data (regenerate with scripts/) ────────────
+data/patients/
+data/patients_manifest.csv
+data/forecast_eval_summary.csv
+
+# ── Logs & build artifacts ───────────────────────────────
+*.log
+*.pptx
+
+# ── Frontend ─────────────────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# ── Editor / OS ──────────────────────────────────────────
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

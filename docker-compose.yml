@@ -1,0 +1,38 @@
+# One-command startup:  docker compose up --build
+#   Frontend  → http://localhost:8080
+#   API docs  → http://localhost:8000/docs
+#
+# First boot generates a small synthetic cohort (N_PATIENTS) into a named
+# volume, so both the CSVs and the SQLite DB persist across restarts.
+
+services:
+  backend:
+    build: .
+    environment:
+      # Keep DB + generated data together on the mounted volume.
+      DATABASE_URL: "sqlite+aiosqlite:///./data/health_monitor.db"
+      # Small cohort for a fast demo; raise or remove for the full 1000.
+      N_PATIENTS: "${N_PATIENTS:-50}"
+      # CHANGE THIS for any non-local deployment.
+      JWT_SECRET: "${JWT_SECRET:-dev-secret-change-me-in-production}"
+    volumes:
+      - health_data:/app/data
+    ports:
+      - "8000:8000"      # exposes /docs for direct API exploration
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      backend:
+        condition: service_started
+
+volumes:
+  health_data:
