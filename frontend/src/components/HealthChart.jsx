@@ -199,7 +199,7 @@ export default function HealthChart({ historical, forecast, metricKey }) {
             label={{ value: `${cfg.lo}`, position: "right", fontSize: 10, fill: "#fda4af" }}
           />
 
-          {/* Actual data — solid line with area fill */}
+          {/* Actual data: solid line with area fill */}
           <Area
             type="monotone"
             dataKey="actual"
@@ -216,7 +216,7 @@ export default function HealthChart({ historical, forecast, metricKey }) {
             connectNulls={false}
           />
 
-          {/* Forecast — dashed line */}
+          {/* Forecast: dashed line */}
           <Line
             type="monotone"
             dataKey="forecast"
