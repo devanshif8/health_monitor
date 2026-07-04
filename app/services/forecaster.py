@@ -17,7 +17,11 @@ import uuid
 import warnings
 
 import pandas as pd
-from prophet import Prophet
+
+# NOTE: prophet is imported lazily inside _fit_and_predict, not here. It's a
+# heavy dependency (pulls in cmdstan) and only the forecast-fitting path needs
+# it - keeping it out of module import lets the API, the CLI scripts, and the
+# unit tests load this module without the ML stack installed.
 
 logging.getLogger("cmdstanpy").setLevel(logging.ERROR)
 logging.getLogger("prophet").setLevel(logging.ERROR)
@@ -56,6 +60,8 @@ def classify_risk(value: float, low: float, high: float) -> str:
 
 
 def _fit_and_predict(history: pd.DataFrame, metric: str) -> pd.DataFrame:
+    from prophet import Prophet
+
     df = history[["timestamp", metric]].rename(
         columns={"timestamp": "ds", metric: "y"}
     ).dropna()
